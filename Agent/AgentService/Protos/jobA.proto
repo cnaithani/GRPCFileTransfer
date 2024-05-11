@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "AgentService.Protos";
+
+package AgentService;
+
+service Job {
+	rpc StartJob (StartJobRequest) returns (StartJobReply);
+}
+
+message StartJobRequest {
+
+  string JobNumber = 2;
+  string MachineName = 1;
+}
+
+message StartJobReply {
+  string Boolean = 1;
+}
