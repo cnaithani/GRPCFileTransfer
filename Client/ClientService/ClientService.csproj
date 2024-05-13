@@ -11,12 +11,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\jobC.proto" GrpcServices="Server" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.57.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.63.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="protobuf-net.BuildTools" Version="3.2.33">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" Version="2.57.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+    <Protobuf Include="Protos\jobC.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

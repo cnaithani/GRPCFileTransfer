@@ -9,9 +9,8 @@ service JobC {
 }
 
 message StartJobRequest {
-  string JobNumber = 1;
-  string MachineName = 2;
-  string FolderPath = 3;
+  string JobNumber = 2;
+  string MachineName = 1;
 }
 
 message StartJobReply {

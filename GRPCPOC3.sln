@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Agent", "Agent", "{D85A7A4A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentService", "Agent\AgentService\AgentService.csproj", "{1911A9C6-3BEB-4857-AE0E-61DCFE1E4360}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp", "Client\ClientApp\ClientApp\ClientApp.csproj", "{1D088B7A-81D0-4C0F-BC14-94B31D1B332C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientApp", "Client\ClientApp\ClientApp\ClientApp.csproj", "{1D088B7A-81D0-4C0F-BC14-94B31D1B332C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

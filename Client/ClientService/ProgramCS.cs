@@ -18,6 +18,7 @@ Log.Information("Starting web host ({ApplicationContext})...", AppName);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+builder.Services.AddSingleton(Log.Logger);
 builder.Services.AddSingleton<IClientJobs, ClientJobs>();
 
 var app = builder.Build();

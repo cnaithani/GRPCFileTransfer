@@ -46,7 +46,10 @@ async Task<bool> StartJob()
     try
     {
         var job = new StartJobRequest { JobNumber = jobName, MachineName = "" };
+
+
         var isstarted = await clientJob.StartJobAsync(job);
+        //var isstarted = clientJob.StartJob(job);
     }
     catch (Exception ex)
     {

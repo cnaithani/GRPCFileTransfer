@@ -9,13 +9,14 @@ namespace ClientService.Services
 {
     public class JobService : JobC.JobCBase
     {
-        public JobService(IClientJobs clientJobs,ILogger logger) {
+        public JobService(IClientJobs clientJobs, ILogger logger)
+        {
             ClientJobs = clientJobs;
             Logger = logger;
 
         }
         IClientJobs ClientJobs { get; set; }
-        Serilog.ILogger Logger { get; set; }    
+        Serilog.ILogger Logger { get; set; }
 
         public override async Task<StartJobReply> StartJob(StartJobRequest request, ServerCallContext context)
         {
