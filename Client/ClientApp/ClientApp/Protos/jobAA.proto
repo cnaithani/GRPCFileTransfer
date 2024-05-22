@@ -6,6 +6,7 @@ package AgentService;
 
 service JobA {
 	rpc StartJob (StartJobRequest) returns (StartJobReply);
+	rpc GetJobs (EmptyInput) returns (JobListModel);
 }
 
 message StartJobRequest {
@@ -16,4 +17,10 @@ message StartJobRequest {
 
 message StartJobReply {
   string IsStarted = 1;
+}
+
+message EmptyInput{}
+
+message JobListModel {
+  repeated string Job = 1;
 }
