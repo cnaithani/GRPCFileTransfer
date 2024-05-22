@@ -1,4 +1,5 @@
 ﻿
+using AgentService.Protos;
 using ClientService.Protos;
 using Grpc.Net.Client;
 using System.Runtime;
@@ -6,8 +7,12 @@ using System.Runtime;
 Console.WriteLine("Welcome to Client App");
 
 var clientAddress = "http://localhost:5034";
-var channelJob = GrpcChannel.ForAddress(clientAddress);
-var clientJob = new JobC.JobCClient(channelJob);
+var clientChannelJob = GrpcChannel.ForAddress(clientAddress);
+var clientJob = new JobC.JobCClient(clientChannelJob);
+
+var agentAddress = "http://localhost:5276";
+var agentChannelJob = GrpcChannel.ForAddress(agentAddress);
+var agentJob = new JobA.JobAClient(agentChannelJob);
 
 CHOOSE:
 Console.WriteLine("Choose a option - ");
@@ -45,11 +50,12 @@ async Task<bool> StartJob()
     var jobName = Console.ReadLine();
     try
     {
-        var job = new StartJobRequest { JobNumber = jobName, MachineName = "" };
+        var clientJobMsg = new ClientService.Protos.StartJobRequest { JobNumber = jobName, MachineName = "" };
+        var isstartedClient = await clientJob.StartJobAsync(clientJobMsg);
 
+        var agentJobMsg = new AgentService.Protos.StartJobRequest { JobNumber = jobName, MachineName = "" };
+        var isstartedAgent= await agentJob.StartJobAsync(agentJobMsg);
 
-        var isstarted = await clientJob.StartJobAsync(job);
-        //var isstarted = clientJob.StartJob(job);
     }
     catch (Exception ex)
     {

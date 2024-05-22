@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\jobAA.proto" />
     <None Remove="Protos\jobCA.proto" />
   </ItemGroup>
 
@@ -21,6 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\jobAA.proto">
+      <GrpcServices>Client</GrpcServices>
+    </Protobuf>
     <Protobuf Include="Protos\jobCA.proto" GrpcServices="Client" />
   </ItemGroup>
 

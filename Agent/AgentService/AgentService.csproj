@@ -12,14 +12,11 @@
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.57.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Protobuf Include="Protos\jobA.proto" GrpcServices="Server" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

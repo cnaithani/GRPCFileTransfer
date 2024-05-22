@@ -1,28 +1,26 @@
-﻿using ClientService.Modules.Classes;
-using ClientService.Modules.Interfaces;
-using ClientService.Protos;
+﻿using AgentService.Modules.Interfaces;
+using AgentService.Protos;
 using Grpc.Core;
 using Serilog;
 using ILogger = Serilog.ILogger;
 
-namespace ClientService.Services
+namespace AgentService.Services
 {
-    public class JobService : JobC.JobCBase
+    public class JobService: JobA.JobABase
     {
-        public JobService(IClientJobs clientJobs, ILogger logger)
+        public JobService(IAgentJobs agentJobs, ILogger logger)
         {
-            ClientJobs = clientJobs;
+            AgentJobs = agentJobs;
             Logger = logger;
-
         }
-        IClientJobs ClientJobs { get; set; }
+        IAgentJobs AgentJobs { get; set; }
         Serilog.ILogger Logger { get; set; }
 
         public override async Task<StartJobReply> StartJob(StartJobRequest request, ServerCallContext context)
         {
             try
             {
-                var isStarted = ClientJobs.StartJob(request.JobNumber);
+                var isStarted = AgentJobs.StartJob(request.JobNumber);
                 Logger.Information("Job srarted - " + request.JobNumber);
                 return new StartJobReply { IsStarted = "true" };
 
