@@ -8,11 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\jobAA.proto" />
-    <None Remove="Protos\jobCA.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.26.1" />
     <PackageReference Include="Grpc.Net.Client" Version="2.62.0" />
     <PackageReference Include="Grpc.Tools" Version="2.63.0">
@@ -22,10 +17,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\jobAA.proto">
-      <GrpcServices>Client</GrpcServices>
+    <Folder Include="Protos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\..\Proto\Agent\jobA.proto" GrpcServices="Client">
+      <Link>Protos\jobA.proto</Link>
     </Protobuf>
-    <Protobuf Include="Protos\jobCA.proto" GrpcServices="Client" />
+    <Protobuf Include="..\..\..\Proto\Client\jobC.proto" GrpcServices="Client">
+      <Link>Protos\jobC.proto</Link>
+    </Protobuf>
   </ItemGroup>
 
 </Project>

@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\jobC.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.57.0" />
     <PackageReference Include="Grpc.Tools" Version="2.63.0">
       <PrivateAssets>all</PrivateAssets>
@@ -24,7 +20,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\jobC.proto" GrpcServices="Server" />
+    <Folder Include="Protos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\Proto\Client\jobC.proto" GrpcServices="Server">
+      <Link>Protos\jobC.proto</Link>
+    </Protobuf>
   </ItemGroup>
 
 </Project>

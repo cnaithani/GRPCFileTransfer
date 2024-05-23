@@ -7,16 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\jobA.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.57.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\jobA.proto" GrpcServices="Server" />
+    <Folder Include="Protos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\Proto\Agent\jobA.proto">
+      <Link>Protos\jobA.proto</Link>
+    </Protobuf>
   </ItemGroup>
 
 </Project>
