@@ -20,10 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Protos\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Protobuf Include="..\..\Proto\Client\fileTransfer.proto" GrpcServices="Server">
+      <Link>Protos\fileTransfer.proto</Link>
+    </Protobuf>
     <Protobuf Include="..\..\Proto\Client\jobC.proto" GrpcServices="Server">
       <Link>Protos\jobC.proto</Link>
     </Protobuf>
