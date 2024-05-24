@@ -11,6 +11,7 @@ namespace AgentService.Modules.Classes
         {
             var jobDetail = new AgentJobDetails();
             jobDetail.JobNumber = jobNumber;
+            jobDetail.Status = GSRCCommons.Constants.JOB_STATUS_STARTED;
 
             Jobs.Add(jobDetail);
 

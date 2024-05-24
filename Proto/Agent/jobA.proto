@@ -11,8 +11,10 @@ service JobA {
 
 message StartJobRequest {
   string JobNumber = 1;
-  string MachineName = 2;
-  string FolderPath = 3;
+  string Status = 2;
+  string MachineName = 3;
+  string FolderPath = 4;
+  repeated string Files = 5;
 }
 
 message StartJobReply {
@@ -22,5 +24,10 @@ message StartJobReply {
 message EmptyInput{}
 
 message JobListModel {
-  repeated string Job = 1;
+  repeated JobModel Jobs = 1;
+}
+
+message JobModel {
+  string Job = 1;
+  string Status = 2;
 }

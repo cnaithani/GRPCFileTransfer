@@ -23,19 +23,25 @@ var inputStr = Console.ReadLine();
 int input = -1;
 if  (int.TryParse(inputStr, out input))
 {
-    if (await StartJob() == true)
+    if (input == 0)
+        goto EXIT;
+       
+    if (input == 1)
     {
-        Console.WriteLine("Job started!!");
-        Console.ReadLine();
-        Console.WriteLine(Environment.NewLine);
-        goto CHOOSE;
-    }
-    else
-    {
-        Console.WriteLine("Error is starting job");
-        Console.ReadLine();
-        Console.WriteLine(Environment.NewLine);
-        goto CHOOSE;
+        if (await StartJob() == true)
+        {
+            Console.WriteLine("Job started!!");
+            Console.ReadLine();
+            Console.WriteLine(Environment.NewLine);
+            goto CHOOSE;
+        }
+        else
+        {
+            Console.WriteLine("Error is starting job");
+            Console.ReadLine();
+            Console.WriteLine(Environment.NewLine);
+            goto CHOOSE;
+        }
     }
 }
 else
@@ -46,11 +52,29 @@ else
 
 async Task<bool> StartJob()
 {
-    Console.WriteLine("Please enter job number");
+    Console.WriteLine("Please enter job number:");
     var jobName = Console.ReadLine();
+
+    Console.WriteLine("Please provide folder path:");
+    var folderpath = Console.ReadLine();
+
+    if (folderpath == null || !Directory.Exists(folderpath))
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("Error while starting job - Invalid folder path!" + Environment.NewLine);
+        Console.ForegroundColor = ConsoleColor.White;
+        return false;
+    }
+
     try
     {
-        var clientJobMsg = new ClientService.Protos.StartJobRequest { JobNumber = jobName, MachineName = "" };
+        var clientJobMsg = new ClientService.Protos.StartJobRequest { JobNumber = jobName, MachineName = "" , FolderPath = folderpath };
+        var files = new List<string>();
+        foreach (var file in Directory.GetFiles(folderpath))
+        {
+            files.Add(file);
+        }
+        clientJobMsg.Files.AddRange(files);
         var isstartedClient = await clientJob.StartJobAsync(clientJobMsg);
 
         var agentJobMsg = new AgentService.Protos.StartJobRequest { JobNumber = jobName, MachineName = "" };
@@ -68,4 +92,7 @@ async Task<bool> StartJob()
 
     return true;
 }
+
+EXIT:
+Console.WriteLine("Exiting application");
 

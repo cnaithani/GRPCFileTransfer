@@ -36,8 +36,13 @@ namespace AgentService.Services
         public override async Task<JobListModel> GetJobs(EmptyInput request, ServerCallContext context)
         {
             var jobs = new JobListModel();
-            jobs.Job.AddRange(AgentJobs.Jobs.Select(x => x.JobNumber));
-
+            foreach (var x in AgentJobs.Jobs)
+            {
+                var job = new JobModel();
+                job.Job = x.JobNumber;
+                job.Status = x.Status;
+                jobs.Jobs.Add(job);
+            }
             return jobs;
         }
     }

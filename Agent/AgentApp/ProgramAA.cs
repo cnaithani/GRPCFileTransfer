@@ -7,7 +7,7 @@ var agentAddress = "http://localhost:5276";
 var agentChannelJob = GrpcChannel.ForAddress(agentAddress);
 var agentJob = new JobA.JobAClient(agentChannelJob);
 
-GetAllJobs();
+//GetAllJobs();
 
 CHOOSE:
 Console.WriteLine("Choose a option - ");
@@ -41,16 +41,16 @@ void GetAllJobs()
 {
     var jobs = agentJob.GetJobs(new EmptyInput());
 
-    if (jobs== null || jobs.Job == null || jobs.Job.Count == 0)
+    if (jobs== null || jobs.Jobs == null || jobs.Jobs.Count == 0)
     {
         Console.WriteLine("No jobs are running in agent");
         return;
     }
 
     Console.WriteLine("Following jobs are running in agent - ");
-    foreach(var job in jobs.Job)
+    foreach(var job in jobs.Jobs)
     {
-        Console.WriteLine(job);
+        Console.WriteLine("Job: " + job.Job + "    Status: " + job.Status);
     }
 
 }

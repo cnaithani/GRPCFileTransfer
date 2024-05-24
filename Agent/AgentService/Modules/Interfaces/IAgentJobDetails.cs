@@ -2,7 +2,8 @@
 {
     public interface IAgentJobDetails
     {
-        string JobNumber { get; }
-        string FolderPath { get; }
+        string JobNumber { get; set; }
+        string FolderPath { get; set; }
+        string Status { get; set; }
     }
 }

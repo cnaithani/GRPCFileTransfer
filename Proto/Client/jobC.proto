@@ -12,6 +12,7 @@ message StartJobRequest {
   string JobNumber = 1;
   string MachineName = 2;
   string FolderPath = 3;
+  repeated string Files = 4;
 }
 
 message StartJobReply {
