@@ -5,6 +5,6 @@ namespace AgentService.Modules.Interfaces
     public interface IAgentJobs
     {
         IList<IAgentJobDetails> Jobs { get; set; }
-        bool StartJob(string jobNumber);
+        bool StartJob(string jobNumber, List<string> files);
     }
 }

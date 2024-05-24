@@ -78,6 +78,7 @@ async Task<bool> StartJob()
         var isstartedClient = await clientJob.StartJobAsync(clientJobMsg);
 
         var agentJobMsg = new AgentService.Protos.StartJobRequest { JobNumber = jobName, MachineName = "" };
+        agentJobMsg.Files.AddRange(files);
         var isstartedAgent= await agentJob.StartJobAsync(agentJobMsg);
 
     }

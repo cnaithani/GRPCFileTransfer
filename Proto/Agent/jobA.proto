@@ -7,6 +7,7 @@ package AgentService;
 service JobA {
 	rpc StartJob (StartJobRequest) returns (StartJobReply);
 	rpc GetJobs (EmptyInput) returns (JobListModel);
+	rpc ConfigureJob (ConfigureJobInput) returns (ConfigureJobReply);
 }
 
 message StartJobRequest {
@@ -30,4 +31,13 @@ message JobListModel {
 message JobModel {
   string Job = 1;
   string Status = 2;
+}
+
+message ConfigureJobInput{
+	string Job = 1;
+	string FolderPath = 2;
+}
+
+message ConfigureJobReply{
+	bool IsConfigured =1;
 }

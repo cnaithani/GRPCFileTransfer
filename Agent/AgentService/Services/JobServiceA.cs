@@ -20,7 +20,7 @@ namespace AgentService.Services
         {
             try
             {
-                var isStarted = AgentJobs.StartJob(request.JobNumber);
+                var isStarted = AgentJobs.StartJob(request.JobNumber, request.Files.ToList());
                 Logger.Information("Job srarted - " + request.JobNumber);
                 return new StartJobReply { IsStarted = "true" };
 
@@ -30,7 +30,6 @@ namespace AgentService.Services
                 Logger.Error(ex, "Error starting job - " + request.JobNumber);
                 return new StartJobReply { IsStarted = "true" };
             }
-;
         }
 
         public override async Task<JobListModel> GetJobs(EmptyInput request, ServerCallContext context)
@@ -44,6 +43,18 @@ namespace AgentService.Services
                 jobs.Jobs.Add(job);
             }
             return jobs;
+        }
+
+        public override async Task<ConfigureJobReply> ConfigureJob(ConfigureJobInput request, ServerCallContext context)
+        {
+            var job = AgentJobs.Jobs.Where(x => x.JobNumber == request.Job).FirstOrDefault();
+            if (job == null)
+                return new ConfigureJobReply { IsConfigured = false };
+
+            job.FolderPath= request.FolderPath;
+            job.Status = GSRCCommons.Constants.JOB_STATUS_READY;
+
+            return new ConfigureJobReply { IsConfigured = true };
         }
     }
 }

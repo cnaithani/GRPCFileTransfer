@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\GSRCCommons\GSRCCommons.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Protobuf Include="..\..\Proto\Agent\jobA.proto" GrpcServices="Client">
       <Link>Protos\jobA.proto</Link>
     </Protobuf>

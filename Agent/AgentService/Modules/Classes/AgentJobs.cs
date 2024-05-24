@@ -7,11 +7,15 @@ namespace AgentService.Modules.Classes
     {
         public IList<IAgentJobDetails> Jobs { get ; set; } = new List<IAgentJobDetails>();
        
-        public bool StartJob(string jobNumber)
+        public bool StartJob(string jobNumber, List<string> files)
         {
             var jobDetail = new AgentJobDetails();
             jobDetail.JobNumber = jobNumber;
-            jobDetail.Status = GSRCCommons.Constants.JOB_STATUS_STARTED;
+            jobDetail.Status = GSRCCommons.Constants.JOB_STATUS_STARTED;       
+            foreach (var file in files)
+            {
+                jobDetail.Files.Add(file);
+            }
 
             Jobs.Add(jobDetail);
 
