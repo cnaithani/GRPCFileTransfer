@@ -2,15 +2,21 @@
 using AgentService.Protos;
 using ClientService.Protos;
 using Grpc.Net.Client;
+using Microsoft.Extensions.Configuration;
 using System.Runtime;
 
 Console.WriteLine("Welcome to Client App");
 
-var clientAddress = "http://localhost:5034";
+var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).Build();
+
+
+var clientAddress = config["Services:Client"];
 var clientChannelJob = GrpcChannel.ForAddress(clientAddress);
 var clientJob = new JobC.JobCClient(clientChannelJob);
 
-var agentAddress = "http://localhost:5276";
+var agentAddress = config["Services:Agent"]; 
 var agentChannelJob = GrpcChannel.ForAddress(agentAddress);
 var agentJob = new JobA.JobAClient(agentChannelJob);
 

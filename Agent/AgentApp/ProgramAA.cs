@@ -1,19 +1,24 @@
 ﻿using AgentService.Protos;
 using Grpc.Net.Client;
+using Microsoft.Extensions.Configuration;
 using System.Linq;
 
 Console.WriteLine("Welcome to Agent App");
 
-var agentAddress = "http://localhost:5276";
+var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).Build();
+
+var agentAddress = config["Services:Agent"];  
 var agentChannelJob = GrpcChannel.ForAddress(agentAddress);
 var agentJob = new JobA.JobAClient(agentChannelJob);
 
-//GetAllJobs();
 
 CHOOSE:
 Console.WriteLine("Choose a option - ");
 Console.WriteLine("Get All Jobs - 1");
 Console.WriteLine("Configure Job - 2");
+Console.WriteLine("Start Transfer - 3");
 Console.WriteLine("Exit  - 0");
 
 var inputStr = Console.ReadLine();
@@ -29,6 +34,12 @@ if (int.TryParse(inputStr, out input))
     if (input == 2)
     {
         Configure();
+        Console.WriteLine(Environment.NewLine);
+        goto CHOOSE;
+    }
+    if (input == 3)
+    {
+        Transfer();
         Console.WriteLine(Environment.NewLine);
         goto CHOOSE;
     }
@@ -107,6 +118,40 @@ void Configure()
         Console.ForegroundColor = ConsoleColor.White;
     }
     Console.WriteLine(Environment.NewLine);
+
+}
+
+void Transfer()
+{
+    var jobs = agentJob.GetJobs(new EmptyInput());
+
+    if (jobs == null || jobs.Jobs == null || jobs.Jobs.Count == 0)
+    {
+        Console.WriteLine("No jobs are running in agent");
+        return;
+    }
+    var jobList = jobs.Jobs.Where(x => x.Status == GSRCCommons.Constants.JOB_STATUS_READY).ToList();
+    if (jobList.Count == 0)
+    {
+        Console.WriteLine("No jobs available for transferring");
+        return;
+    }
+    Console.WriteLine("Following jobs are running in agent ready for transfer - ");
+    foreach (var job in jobList)
+    {
+        Console.WriteLine("Job: " + job.Job);
+    }
+    Console.WriteLine(Environment.NewLine);
+    Console.WriteLine("Please enter job number (Case Sensitive) to transfer  - ");
+
+    var jobToTransfer = Console.ReadLine().Trim();
+    if (!jobList.Select(x => x.Job).Contains(jobToTransfer))
+    {
+        Console.WriteLine("No jobs found with this name!");
+        return;
+    }
+
+    
 
 }
 

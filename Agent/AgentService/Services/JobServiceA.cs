@@ -56,5 +56,11 @@ namespace AgentService.Services
 
             return new ConfigureJobReply { IsConfigured = true };
         }
+
+        public override Task<TransferReply> Transfer(TransferInput request, ServerCallContext context)
+        {
+            return base.Transfer(request, context);
+        }
+
     }
 }
