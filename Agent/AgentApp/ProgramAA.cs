@@ -152,6 +152,18 @@ void Transfer()
     }
 
     var trasferReply =agentJob.Transfer(new TransferInput { Job = jobToTransfer });
+    if (trasferReply.HasTransferStarted)
+    {
+        Console.WriteLine("Done!");
+        return;
+    }
+    else
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("Error while transferring! ");
+        Console.ForegroundColor = ConsoleColor.White;
+        return;
+    }
 
 }
 
