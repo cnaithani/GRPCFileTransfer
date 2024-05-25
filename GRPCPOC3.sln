@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientApp", "Client\ClientA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgentApp", "Agent\AgentApp\AgentApp.csproj", "{500D78AE-C289-46E9-9BF0-FCFD881D0E63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSRCCommons", "GSRCCommons\GSRCCommons.csproj", "{E8C90410-CA4F-4FD2-8647-EF4C83EDE4C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GSRCCommons", "GSRCCommons\GSRCCommons.csproj", "{E8C90410-CA4F-4FD2-8647-EF4C83EDE4C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

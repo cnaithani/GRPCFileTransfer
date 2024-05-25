@@ -1,4 +1,5 @@
-﻿using AgentService.Modules.Interfaces;
+﻿using AgentService.Models;
+using AgentService.Modules.Interfaces;
 
 namespace AgentService.Modules.Classes
 {
@@ -6,7 +7,7 @@ namespace AgentService.Modules.Classes
     {
         public string JobNumber { get; set; } = string.Empty;
         public string FolderPath { get; set; } = string.Empty;
-        public List<string> Files { get; set; } = new List<string>();
+        public List<FileModel> Files { get; set; } = new List<FileModel>();
         public string Status { get; set; } = string.Empty;
     }
 }

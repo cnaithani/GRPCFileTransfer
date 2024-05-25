@@ -57,9 +57,10 @@ namespace AgentService.Services
             return new ConfigureJobReply { IsConfigured = true };
         }
 
-        public override Task<TransferReply> Transfer(TransferInput request, ServerCallContext context)
+        public override async Task<TransferReply> Transfer(TransferInput request, ServerCallContext context)
         {
-            return base.Transfer(request, context);
+            var trasferReturn = await AgentJobs.Transfer(request.Job);
+            return new TransferReply { HasTransferStarted= trasferReturn };
         }
 
     }

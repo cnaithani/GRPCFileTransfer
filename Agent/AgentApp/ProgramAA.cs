@@ -151,7 +151,7 @@ void Transfer()
         return;
     }
 
-    
+    var trasferReply =agentJob.Transfer(new TransferInput { Job = jobToTransfer });
 
 }
 

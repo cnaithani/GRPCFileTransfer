@@ -8,6 +8,7 @@ service JobA {
 	rpc StartJob (StartJobRequest) returns (StartJobReply);
 	rpc GetJobs (EmptyInput) returns (JobListModel);
 	rpc ConfigureJob (ConfigureJobInput) returns (ConfigureJobReply);
+	rpc Transfer (TransferInput) returns (TransferReply);
 }
 
 message StartJobRequest {
@@ -41,3 +42,12 @@ message ConfigureJobInput{
 message ConfigureJobReply{
 	bool IsConfigured =1;
 }
+
+message TransferInput{
+	string Job = 1;
+}
+
+message TransferReply{
+	bool HasTransferStarted = 1;
+}
+

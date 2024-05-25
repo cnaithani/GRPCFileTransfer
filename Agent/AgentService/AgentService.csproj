@@ -12,16 +12,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Protos\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\GSRCCommons\GSRCCommons.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Protobuf Include="..\..\Proto\Agent\jobA.proto">
       <Link>Protos\jobA.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\..\Proto\Client\jobC.proto">
+      <Link>Protos\jobC.proto</Link>
     </Protobuf>
   </ItemGroup>
 
