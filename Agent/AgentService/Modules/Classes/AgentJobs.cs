@@ -54,10 +54,17 @@ namespace AgentService.Modules.Classes
                 {
                     file.IsComplete = true;
                 }
-
             }
 
-            return true;
+            if (job.Files.Where(x => x.IsComplete == false).ToList().Count() == 0)
+            {
+                job.Status = GSRCCommons.Constants.JOB_STATUS_DONE;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 
@@ -66,14 +73,10 @@ namespace AgentService.Modules.Classes
             try
             {
                 var _request = new FileRequest { FilePath = filePath };
-                var _temp_file = folderPath + $"//temp{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}.tmp";
+                if (!folderPath.EndsWith(Path.DirectorySeparatorChar))
+                    folderPath += Path.DirectorySeparatorChar;
+                var _temp_file = Path.Combine( folderPath , $"temp{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}.tmp");
                 var _final_file = _temp_file;
-
-                //if (!File.Exists(_temp_file))
-                //{
-                //    File.Create(_temp_file);
-                //}
-                    
 
                 using (var _call = client.SendReciveFile(_request))
                 {
@@ -100,7 +103,7 @@ namespace AgentService.Modules.Classes
                 }
 
                 if (_final_file != _temp_file)
-                    File.Move(_temp_file, folderPath + $"//{_final_file}");
+                    File.Move(_temp_file, Path.Combine( folderPath + $"{_final_file}"));
 
                 return true;
             }
