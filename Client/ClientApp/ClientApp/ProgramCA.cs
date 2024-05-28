@@ -12,12 +12,16 @@ var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).Build();
 
 
+var handler = new HttpClientHandler();
+handler.ServerCertificateCustomValidationCallback =
+    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+
 var clientAddress = config["Services:Client"];
-var clientChannelJob = GrpcChannel.ForAddress(clientAddress);
+var clientChannelJob = GrpcChannel.ForAddress(clientAddress,new GrpcChannelOptions { HttpHandler = handler });
 var clientJob = new JobC.JobCClient(clientChannelJob);
 
 var agentAddress = config["Services:Agent"]; 
-var agentChannelJob = GrpcChannel.ForAddress(agentAddress);
+var agentChannelJob = GrpcChannel.ForAddress(agentAddress, new GrpcChannelOptions { HttpHandler = handler });
 var agentJob = new JobA.JobAClient(agentChannelJob);
 
 CHOOSE:

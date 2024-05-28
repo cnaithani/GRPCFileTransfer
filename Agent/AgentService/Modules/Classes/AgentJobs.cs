@@ -66,8 +66,14 @@ namespace AgentService.Modules.Classes
             try
             {
                 var _request = new FileRequest { FilePath = filePath };
-                var _temp_file = folderPath + $"\\temp_{DateTime.UtcNow.ToString("yyyyMMdd_HHmmss")}.tmp";
+                var _temp_file = folderPath + $"//temp{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}.tmp";
                 var _final_file = _temp_file;
+
+                //if (!File.Exists(_temp_file))
+                //{
+                //    File.Create(_temp_file);
+                //}
+                    
 
                 using (var _call = client.SendReciveFile(_request))
                 {
@@ -94,7 +100,7 @@ namespace AgentService.Modules.Classes
                 }
 
                 if (_final_file != _temp_file)
-                    File.Move(_temp_file, folderPath + $"\\{_final_file}");
+                    File.Move(_temp_file, folderPath + $"//{_final_file}");
 
                 return true;
             }
