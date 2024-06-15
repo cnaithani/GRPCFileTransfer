@@ -19,11 +19,16 @@
 
   <ItemGroup>
     <Protobuf Include="..\..\Proto\Agent\jobA.proto">
-      <Link>Protos\jobA.proto</Link>
+      <Link>Protos\ServerProtos\jobA.proto</Link>
     </Protobuf>
-    <Protobuf Include="..\..\Proto\Client\jobC.proto">
-      <Link>Protos\jobC.proto</Link>
+    <Protobuf Include="..\..\Proto\Client\jobC.proto" GrpcServices="Client">
+      <Link>Protos\ClientProtos\jobC.proto</Link>
     </Protobuf>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Protos\ClientProtos\" />
+    <Folder Include="Protos\ServerProtos\" />
   </ItemGroup>
 
 </Project>

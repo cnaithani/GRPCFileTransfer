@@ -13,8 +13,6 @@ namespace ClientApp
 {
     public class Program
     {
-
-
         private static string AppName = "GRPC - Client Service";
         private static JobC.JobCClient clientJob;
         private static JobA.JobAClient agentJob;
