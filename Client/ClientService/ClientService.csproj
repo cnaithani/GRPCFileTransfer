@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <StartupObject>ClientApp.Program</StartupObject>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
@@ -22,9 +23,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\..\Proto\Client\jobC.proto" GrpcServices="Server">
-      <Link>Protos\jobC.proto</Link>
+    <Protobuf Include="..\..\Proto\Agent\jobA.proto" GrpcServices="Client">
+      <Link>Protos\ClientProtos\jobA.proto</Link>
     </Protobuf>
+    <Protobuf Include="..\..\Proto\Client\jobC.proto" GrpcServices="Both">
+      <Link>Protos\ServerProtos\jobC.proto</Link>
+    </Protobuf>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Protos\ClientProtos\" />
+    <Folder Include="Protos\ServerProtos\" />
   </ItemGroup>
 
 </Project>
