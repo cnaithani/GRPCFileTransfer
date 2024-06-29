@@ -23,7 +23,7 @@ namespace AgentService.Services
         {
             try
             {
-                var isStarted = AgentJobs.StartJob(request.JobNumber, request.Files.ToList());
+                var isStarted = AgentJobs.StartJob(request.MachineName, request.JobNumber, request.Files.ToList());
                 Logger.Information("Job srarted - " + request.JobNumber);
                 return new StartJobReply { IsStarted = "true" };
 
@@ -39,6 +39,19 @@ namespace AgentService.Services
         {
             var jobs = new JobListModel();
             foreach (var x in AgentJobs.Jobs)
+            {
+                var job = new JobModel();
+                job.Job = x.JobNumber;
+                job.Status = x.Status;
+                jobs.Jobs.Add(job);
+            }
+            return jobs;
+        }
+
+        public override async Task<JobListModel> GetClientJobs(GetClientJobInput request, ServerCallContext context)
+        {
+            var jobs = new JobListModel();
+            foreach (var x in AgentJobs.Jobs.Where(x=>x.MachineName==request.MachineName))
             {
                 var job = new JobModel();
                 job.Job = x.JobNumber;

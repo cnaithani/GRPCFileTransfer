@@ -7,6 +7,7 @@ package AgentService;
 service JobA {
 	rpc StartJob (StartJobRequest) returns (StartJobReply);
 	rpc GetJobs (EmptyInput) returns (JobListModel);
+	rpc GetClientJobs (GetClientJobInput) returns (JobListModel);
 	rpc ConfigureJob (ConfigureJobInput) returns (ConfigureJobReply);
 	rpc Transfer (TransferInput) returns (TransferReply);
 	rpc CallMockException (TransferInput) returns (TransferReply);
@@ -28,6 +29,10 @@ message EmptyInput{}
 
 message JobListModel {
   repeated JobModel Jobs = 1;
+}
+
+message GetClientJobInput{
+	string MachineName = 1;
 }
 
 message JobModel {

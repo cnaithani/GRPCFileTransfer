@@ -17,6 +17,7 @@ namespace ClientApp
         private static string AppName = "GRPC - Client Service";
         private static JobC.JobCClient clientJob;
         private static JobA.JobAClient agentJob;
+        private static string clientName = Guid.NewGuid().ToString();
 
         public static void Main(string[] args)
         {
@@ -44,7 +45,9 @@ namespace ClientApp
 
             Task.Run(() => { app.Run(); });
             Thread.Sleep(1000);
-
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Started Client with Name -  " + clientName);
+            Console.ForegroundColor = ConsoleColor.White;
 
             /*-----------------*/
 
@@ -67,8 +70,9 @@ namespace ClientApp
         CHOOSE:
             Console.WriteLine("Choose a option - ");
             Console.WriteLine("Start Job - 1");
-            Console.WriteLine("Generate Mock Unhandled Exception - 2");
-            Console.WriteLine("Generate Mock Handled Exception - 3");
+            Console.WriteLine("Get Job Status - 2");
+            Console.WriteLine("Generate Mock Unhandled Exception - 4");
+            Console.WriteLine("Generate Mock Handled Exception - 5");
             Console.WriteLine("Exit  - 0");
 
             var inputStr = Console.ReadLine();
@@ -99,12 +103,18 @@ namespace ClientApp
                 }
                 if (input == 2)
                 {
+                    GetClientJob();
+                    Console.WriteLine(Environment.NewLine);
+                    goto CHOOSE;
+                }
+                if (input == 4)
+                {
                     var resut = GenerateException().Result;
                     Console.WriteLine(Environment.NewLine);
                     goto CHOOSE;
                 }
 
-                if (input == 3)
+                if (input == 5)
                 {
                     var resut = GenerateHandledException().Result;
                     Console.WriteLine(Environment.NewLine);
@@ -152,7 +162,7 @@ namespace ClientApp
 
             try
             {
-                var clientJobMsg = new ClientService.Protos.StartJobRequest { JobNumber = jobName, MachineName = "", FolderPath = folderpath };
+                var clientJobMsg = new ClientService.Protos.StartJobRequest { JobNumber = jobName, MachineName = clientName, FolderPath = folderpath };
                 var files = new List<string>();
                 foreach (var file in Directory.GetFiles(folderpath))
                 {
@@ -161,7 +171,7 @@ namespace ClientApp
                 clientJobMsg.Files.AddRange(files);
                 var isstartedClient = await clientJob.StartJobAsync(clientJobMsg);
 
-                var agentJobMsg = new AgentService.Protos.StartJobRequest { JobNumber = jobName, MachineName = "" };
+                var agentJobMsg = new AgentService.Protos.StartJobRequest { JobNumber = jobName, MachineName = clientName };
                 agentJobMsg.Files.AddRange(files);
                 var isstartedAgent = await agentJob.StartJobAsync(agentJobMsg);
 
@@ -176,6 +186,31 @@ namespace ClientApp
             }
 
             return true;
+        }
+
+        static async Task GetClientJob()
+        {
+            try
+            {
+                var agentJobMsg = new AgentService.Protos.GetClientJobInput { MachineName= clientName };
+                var jobs = agentJob.GetClientJobs(agentJobMsg);
+                if (jobs != null)
+                {
+                    foreach(var job in jobs.Jobs)
+                    {
+                        Console.WriteLine(job.Job + " - " + job.Status);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error while starting job - ");
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
         }
 
         static async Task<bool> GenerateException()

@@ -5,6 +5,7 @@ namespace AgentService.Modules.Classes
 {
     public class AgentJobDetails :IAgentJobDetails
     {
+        public string MachineName { get; set; } = string.Empty;
         public string JobNumber { get; set; } = string.Empty;
         public string FolderPath { get; set; } = string.Empty;
         public List<FileModel> Files { get; set; } = new List<FileModel>();

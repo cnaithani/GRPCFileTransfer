@@ -14,7 +14,6 @@ namespace AgentApp
     {
 
         static string AppName = "GRPC - Agent Service";
-        //private static JobC.JobCClient clientJob;
         private static JobA.JobAClient agentJob;
 
         public static void Main(string[] args)
@@ -54,7 +53,6 @@ namespace AgentApp
             var agentAddress = config["Services:Agent"];
             var agentChannelJob = GrpcChannel.ForAddress(agentAddress, new GrpcChannelOptions { HttpHandler = handler });
             agentJob = new JobA.JobAClient(agentChannelJob);
-
 
         CHOOSE:
             Console.WriteLine("Choose a option - ");
