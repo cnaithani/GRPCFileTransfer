@@ -1,3 +1,4 @@
+using AgentService.ExceptionHandling.Interceptor;
 using AgentService.Modules.Classes;
 using AgentService.Modules.Interfaces;
 using AgentService.Protos;
@@ -29,7 +30,9 @@ namespace AgentApp
             Log.Information("Starting web host ({ApplicationContext})...", AppName);
 
             // Add services to the container.
-            builder.Services.AddGrpc();
+            builder.Services.AddGrpc(options =>
+                options.Interceptors.Add<ErrorHandlingInterceptor>());
+
             builder.Services.AddSingleton(Log.Logger);
             builder.Services.AddSingleton<IAgentJobs, AgentJobs>();
 
@@ -224,6 +227,8 @@ namespace AgentApp
             }
 
         }
+
+
     }
 
 

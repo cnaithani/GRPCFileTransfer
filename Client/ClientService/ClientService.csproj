@@ -36,4 +36,8 @@
     <Folder Include="Protos\ServerProtos\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\ExceptionHandler\ExceptionHandler.csproj" />
+  </ItemGroup>
+
 </Project>

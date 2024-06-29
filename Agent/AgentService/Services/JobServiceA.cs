@@ -1,7 +1,10 @@
 ﻿using AgentService.Modules.Interfaces;
 using AgentService.Protos;
+using ExceptionHandler.Exceptions;
+using ExceptionHandler.Models;
 using Grpc.Core;
 using Serilog;
+using System.Runtime.CompilerServices;
 using ILogger = Serilog.ILogger;
 
 namespace AgentService.Services
@@ -61,6 +64,24 @@ namespace AgentService.Services
         {
             var trasferReturn = await AgentJobs.Transfer(request.Job);
             return new TransferReply { HasTransferStarted= trasferReturn };
+        }
+
+        public override async Task<TransferReply> CallMockException(TransferInput request, ServerCallContext context)
+        {  
+           if (request.Job.ToLower().Equals("handled"))
+            {
+                var validations = new List<ValidationFaliurModel> { 
+                    new ValidationFaliurModel { Name = "1", Description = "Dummy-1" },
+                    new ValidationFaliurModel { Name = "2", Description = "Dummy-2"}    
+                };
+                throw new ValidtionException(validations.ToArray());
+            }
+            else if (request.Job.ToLower().Contains("unhandled"))
+            {
+                throw new Exception("Mock Exception");
+            }
+
+            return null;
         }
 
     }

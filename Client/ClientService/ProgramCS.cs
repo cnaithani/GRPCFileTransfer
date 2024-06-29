@@ -8,6 +8,7 @@ using AgentService.Protos;
 using Serilog;
 using Microsoft.Extensions.DependencyInjection;
 using ClientService.Protos;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClientApp
 {
@@ -30,7 +31,7 @@ namespace ClientApp
             Log.Information("Starting web host ({ApplicationContext})...", AppName);
 
             // Add services to the container.
-            builder.Services.AddGrpc();
+            builder.Services.AddGrpc() ;
             builder.Services.AddSingleton(Log.Logger);
             builder.Services.AddSingleton<IClientJobs, ClientJobs>();
 
@@ -41,7 +42,7 @@ namespace ClientApp
             app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. " +
             "To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
-            Task.Run(() => { app.Run();});
+            Task.Run(() => { app.Run(); });
             Thread.Sleep(1000);
 
 
@@ -66,6 +67,8 @@ namespace ClientApp
         CHOOSE:
             Console.WriteLine("Choose a option - ");
             Console.WriteLine("Start Job - 1");
+            Console.WriteLine("Generate Mock Unhandled Exception - 2");
+            Console.WriteLine("Generate Mock Handled Exception - 3");
             Console.WriteLine("Exit  - 0");
 
             var inputStr = Console.ReadLine();
@@ -77,8 +80,8 @@ namespace ClientApp
 
                 if (input == 1)
                 {
-             
-                    var resut =StartJob().Result;             
+
+                    var resut = StartJob().Result;
                     if (resut == true)
                     {
                         Console.WriteLine("Job started!!");
@@ -93,6 +96,19 @@ namespace ClientApp
                         Console.WriteLine(Environment.NewLine);
                         goto CHOOSE;
                     }
+                }
+                if (input == 2)
+                {
+                    var resut = GenerateException().Result;
+                    Console.WriteLine(Environment.NewLine);
+                    goto CHOOSE;
+                }
+
+                if (input == 3)
+                {
+                    var resut = GenerateHandledException().Result;
+                    Console.WriteLine(Environment.NewLine);
+                    goto CHOOSE;
                 }
             }
             else
@@ -162,7 +178,65 @@ namespace ClientApp
             return true;
         }
 
+        static async Task<bool> GenerateException()
+        {
+            try
+            {
+                Console.WriteLine("Calling Agent to Generate simulated exception");
+                var trasferReply = await agentJob.CallMockExceptionAsync(new TransferInput { Job = "Unhandled" });
 
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Generated unhandled exceptions - ");
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
+                throw;
+                
+            }
+
+            return true;
+        }
+
+        static async Task<bool> GenerateHandledException()
+        {
+            try
+            {
+                Console.WriteLine("Calling Agent to Generate simulated exception");
+                var trasferReply = await agentJob.CallMockExceptionAsync(new TransferInput { Job = "Handled" });
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error while calling agent function - ");
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
+
+                var capturedEx = ExceptionHandler.ExceptionHandler.TryGetException(ex);
+                if (capturedEx !=null)
+                {
+
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Generated handled exceptions - ");
+                    Console.WriteLine(capturedEx.Message);
+                    Console.WriteLine("Following are all the validations - ");
+                    var validations = (ExceptionHandler.Exceptions.ValidtionException)capturedEx;
+                    foreach (var validation in validations.ValidationFaliurs)
+                    {
+                        Console.WriteLine(string.Concat(validation.Name, " - ", validation.Description));
+                    }
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
+            }
+
+            return true;
+        }
 
     }
 }
